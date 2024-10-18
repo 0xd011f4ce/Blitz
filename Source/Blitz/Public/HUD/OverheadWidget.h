@@ -18,8 +18,14 @@ public:
   UPROPERTY (meta=(BindWidget))
   UTextBlock *DisplayText;
 
+  UPROPERTY (meta=(BindWidget))
+  UTextBlock *PlayerName;
+
   void SetDisplayText (FString TextToDisplay);
 
   UFUNCTION (BlueprintCallable)
   void ShowPlayerNetRole (APawn *InPawn);
+
+  UFUNCTION (BlueprintCallable)
+  void ShowPlayerName (APlayerController *InController);
 };
