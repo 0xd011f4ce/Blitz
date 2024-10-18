@@ -11,7 +11,11 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 
+#include "Net/UnrealNetwork.h"
+
 #include "Components/WidgetComponent.h"
+
+#include "Weapon/Weapon.h"
 
 ABlitzCharacter::ABlitzCharacter ()
 {
@@ -68,6 +72,16 @@ ABlitzCharacter::Jump ()
 }
 
 void
+ABlitzCharacter::GetLifetimeReplicatedProps (
+    TArray<FLifetimeProperty> &OutLifetimeProps) const
+{
+  Super::GetLifetimeReplicatedProps (OutLifetimeProps);
+
+  // Replicate to everyone
+  DOREPLIFETIME_CONDITION (ABlitzCharacter, OverlappingWeapon, COND_OwnerOnly);
+}
+
+void
 ABlitzCharacter::BeginPlay ()
 {
   Super::BeginPlay ();
@@ -111,4 +125,36 @@ ABlitzCharacter::Look (const FInputActionValue &Value)
 
   AddControllerYawInput (Direction.X);
   AddControllerPitchInput (Direction.Y);
+}
+
+void
+ABlitzCharacter::OnRep_OverlappingWeapon (AWeapon *LastWeapon)
+{
+  if (OverlappingWeapon)
+    {
+      OverlappingWeapon->ShowPickupWidget (true);
+    }
+
+  if (LastWeapon)
+    {
+      LastWeapon->ShowPickupWidget (false);
+    }
+}
+
+void
+ABlitzCharacter::SetOverlappingWeapon (AWeapon *Weapon)
+{
+  if (OverlappingWeapon)
+    {
+      OverlappingWeapon->ShowPickupWidget (false);
+    }
+
+  OverlappingWeapon = Weapon;
+  if (IsLocallyControlled ())
+    {
+      if (OverlappingWeapon)
+        {
+          OverlappingWeapon->ShowPickupWidget (true);
+        }
+    }
 }

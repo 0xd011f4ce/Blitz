@@ -7,6 +7,7 @@
 
 #include "BlitzCharacter.generated.h"
 
+class AWeapon;
 class UWidgetComponent;
 struct FInputActionValue;
 class UCameraComponent;
@@ -14,6 +15,7 @@ class USpringArmComponent;
 class UInputComponent;
 class UInputMappingContext;
 class UInputAction;
+class FLifetimeProperty;
 
 UCLASS ()
 class BLITZ_API ABlitzCharacter : public ACharacter
@@ -29,6 +31,8 @@ public:
       UInputComponent *PlayerInputComponent) override;
 
   virtual void Jump () override;
+  virtual void GetLifetimeReplicatedProps (
+      TArray<FLifetimeProperty> &OutLifetimeProps) const override;
 
 protected:
   virtual void BeginPlay () override;
@@ -61,4 +65,17 @@ private:
   UPROPERTY (EditAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess="true"),
     Category = UI)
   UWidgetComponent *OverheadWidget;
+
+  UPROPERTY (ReplicatedUsing = OnRep_OverlappingWeapon)
+  AWeapon *OverlappingWeapon;
+
+  UFUNCTION ()
+  void OnRep_OverlappingWeapon (AWeapon *LastWeapon);
+
+public:
+  /**
+   * Setters and Getters
+   */
+  void
+  SetOverlappingWeapon (AWeapon *Weapon);
 };

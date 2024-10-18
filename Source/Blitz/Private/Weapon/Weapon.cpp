@@ -38,6 +38,15 @@ AWeapon::Tick (float DeltaTime)
 }
 
 void
+AWeapon::ShowPickupWidget (bool bShowWidget)
+{
+  if (PickupWidget)
+    {
+      PickupWidget->SetVisibility (bShowWidget);
+    }
+}
+
+void
 AWeapon::BeginPlay ()
 {
   Super::BeginPlay ();
@@ -49,6 +58,8 @@ AWeapon::BeginPlay ()
       AreaSphere->SetCollisionResponseToChannel (ECC_Pawn, ECR_Overlap);
       AreaSphere->OnComponentBeginOverlap.AddDynamic (
           this, &ThisClass::OnSphereOverlap);
+      AreaSphere->OnComponentEndOverlap.AddDynamic (
+          this, &ThisClass::OnSphereEndOverlap);
     }
 
   if (PickupWidget)
@@ -64,8 +75,21 @@ AWeapon::OnSphereOverlap (UPrimitiveComponent *OverlappedComponent,
                           bool bFromSweep, const FHitResult &SweepResult)
 {
   ABlitzCharacter *BlitzCharacter = Cast<ABlitzCharacter> (OtherActor);
-  if (BlitzCharacter && PickupWidget)
+  if (BlitzCharacter)
     {
-      PickupWidget->SetVisibility (true);
+      BlitzCharacter->SetOverlappingWeapon (this);
+    }
+}
+
+void
+AWeapon::OnSphereEndOverlap (UPrimitiveComponent *OverlappedComponent,
+                             AActor *OtherActor,
+                             UPrimitiveComponent *OtherComp,
+                             int32 OtherBodyIndex)
+{
+  ABlitzCharacter *BlitzCharacter = Cast<ABlitzCharacter> (OtherActor);
+  if (BlitzCharacter)
+    {
+      BlitzCharacter->SetOverlappingWeapon (nullptr);
     }
 }
