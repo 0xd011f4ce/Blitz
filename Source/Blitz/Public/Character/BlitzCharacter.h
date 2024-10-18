@@ -7,9 +7,12 @@
 
 #include "BlitzCharacter.generated.h"
 
+struct FInputActionValue;
 class UCameraComponent;
 class USpringArmComponent;
 class UInputComponent;
+class UInputMappingContext;
+class UInputAction;
 
 UCLASS ()
 class BLITZ_API ABlitzCharacter : public ACharacter
@@ -24,8 +27,28 @@ public:
   virtual void SetupPlayerInputComponent (
       UInputComponent *PlayerInputComponent) override;
 
+  virtual void Jump () override;
+
 protected:
   virtual void BeginPlay () override;
+
+  /**
+   * Input
+   */
+  UPROPERTY (EditAnywhere, Category = Input)
+  UInputMappingContext *MappingContext;
+
+  UPROPERTY (EditAnywhere, Category = Input)
+  UInputAction *MovementAction;
+
+  UPROPERTY (EditAnywhere, Category = Input)
+  UInputAction *LookAction;
+
+  UPROPERTY (EditAnywhere, Category = Input)
+  UInputAction *JumpAction;
+
+  void Move (const FInputActionValue &Value);
+  void Look (const FInputActionValue &Value);
 
 private:
   UPROPERTY (VisibleAnywhere, Category = Camera)
