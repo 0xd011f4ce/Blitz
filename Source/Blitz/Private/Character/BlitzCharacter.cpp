@@ -11,6 +11,8 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 
+#include "Components/WidgetComponent.h"
+
 ABlitzCharacter::ABlitzCharacter ()
 {
   PrimaryActorTick.bCanEverTick = true;
@@ -28,6 +30,10 @@ ABlitzCharacter::ABlitzCharacter ()
 
   bUseControllerRotationYaw = false;
   GetCharacterMovement ()->bOrientRotationToMovement = true;
+
+  OverheadWidget = CreateDefaultSubobject<UWidgetComponent> (
+      TEXT ("OverheadWidget"));
+  OverheadWidget->SetupAttachment (RootComponent);
 }
 
 void

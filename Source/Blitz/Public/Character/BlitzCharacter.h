@@ -7,6 +7,7 @@
 
 #include "BlitzCharacter.generated.h"
 
+class UWidgetComponent;
 struct FInputActionValue;
 class UCameraComponent;
 class USpringArmComponent;
@@ -56,4 +57,8 @@ private:
 
   UPROPERTY (VisibleAnywhere, Category = Camera)
   UCameraComponent *FollowCamera;
+
+  UPROPERTY (EditAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess="true"),
+    Category = UI)
+  UWidgetComponent *OverheadWidget;
 };
