@@ -7,6 +7,10 @@
 
 #include "BlitzCharacter.generated.h"
 
+class UCameraComponent;
+class USpringArmComponent;
+class UInputComponent;
+
 UCLASS ()
 class BLITZ_API ABlitzCharacter : public ACharacter
 {
@@ -18,8 +22,15 @@ public:
   virtual void Tick (float DeltaTime) override;
 
   virtual void SetupPlayerInputComponent (
-      class UInputComponent *PlayerInputComponent) override;
+      UInputComponent *PlayerInputComponent) override;
 
 protected:
   virtual void BeginPlay () override;
+
+private:
+  UPROPERTY (VisibleAnywhere, Category = Camera)
+  USpringArmComponent *CameraBoom;
+
+  UPROPERTY (VisibleAnywhere, Category = Camera)
+  UCameraComponent *FollowCamera;
 };

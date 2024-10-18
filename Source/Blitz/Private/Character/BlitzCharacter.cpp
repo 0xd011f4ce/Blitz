@@ -2,9 +2,23 @@
 
 #include "Character/BlitzCharacter.h"
 
+#include "Camera/CameraComponent.h"
+#include "GameFramework/SpringArmComponent.h"
+
 ABlitzCharacter::ABlitzCharacter ()
 {
   PrimaryActorTick.bCanEverTick = true;
+
+  CameraBoom = CreateDefaultSubobject<USpringArmComponent> (
+      TEXT ("CameraBoom"));
+  CameraBoom->TargetArmLength = 600.f;
+  CameraBoom->bUsePawnControlRotation = true;
+  CameraBoom->SetupAttachment (GetMesh ());
+
+  FollowCamera = CreateDefaultSubobject<UCameraComponent> (
+      TEXT ("FollowCamera"));
+  FollowCamera->SetupAttachment (CameraBoom, USpringArmComponent::SocketName);
+  FollowCamera->bUsePawnControlRotation = false;
 }
 
 void
