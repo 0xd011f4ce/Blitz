@@ -43,6 +43,8 @@ ABlitzCharacter::ABlitzCharacter ()
 
   Combat = CreateDefaultSubobject<UCombatComponent> (TEXT ("CombatComponent"));
   Combat->SetIsReplicated (true); // replicate this component
+
+  GetCharacterMovement ()->NavAgentProps.bCanCrouch = true;
 }
 
 void
@@ -70,6 +72,12 @@ ABlitzCharacter::SetupPlayerInputComponent (
       EnhancedInputComponent->BindAction (EquipAction,
                                           ETriggerEvent::Triggered,
                                           this, &ThisClass::Equip);
+      EnhancedInputComponent->BindAction (CrouchAction,
+                                          ETriggerEvent::Started, this,
+                                          &ThisClass::CrouchUncrouch);
+      EnhancedInputComponent->BindAction (CrouchAction,
+                                          ETriggerEvent::Completed, this,
+                                          &ThisClass::CrouchUncrouch);
     }
 }
 
@@ -161,6 +169,19 @@ ABlitzCharacter::Equip (const FInputActionValue &Value)
           // we're the client
           ServerEquipButtonPressed ();
         }
+    }
+}
+
+void
+ABlitzCharacter::CrouchUncrouch (const FInputActionValue &Value)
+{
+  if (Value.Get<bool> ())
+    {
+      Crouch ();
+    }
+  else
+    {
+      UnCrouch ();
     }
 }
 

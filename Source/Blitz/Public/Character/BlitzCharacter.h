@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "InputActionValue.h"
 #include "GameFramework/Character.h"
 
 #include "BlitzCharacter.generated.h"
@@ -57,9 +58,13 @@ protected:
   UPROPERTY (EditAnywhere, Category = Input)
   UInputAction *EquipAction;
 
+  UPROPERTY (EditAnywhere, Category = Input)
+  UInputAction *CrouchAction;
+
   void Move (const FInputActionValue &Value);
   void Look (const FInputActionValue &Value);
   void Equip (const FInputActionValue &Value);
+  void CrouchUncrouch (const FInputActionValue &Value);
 
 private:
   UPROPERTY (VisibleAnywhere, Category = Camera)
