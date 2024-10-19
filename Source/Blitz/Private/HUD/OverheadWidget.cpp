@@ -48,7 +48,7 @@ UOverheadWidget::ShowPlayerNetRole (APawn *InPawn)
 }
 
 void
-UOverheadWidget::ShowPlayerName (APlayerController *InController)
+UOverheadWidget::ShowPlayerName (AController *InController)
 {
   if (PlayerName)
     {

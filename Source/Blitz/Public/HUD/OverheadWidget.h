@@ -27,5 +27,5 @@ public:
   void ShowPlayerNetRole (APawn *InPawn);
 
   UFUNCTION (BlueprintCallable)
-  void ShowPlayerName (APlayerController *InController);
+  void ShowPlayerName (AController *InController);
 };
