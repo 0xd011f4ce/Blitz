@@ -28,7 +28,7 @@ UBlitzAnimInstance::NativeUpdateAnimation (float DeltaSeconds)
   Speed = Velocity.Size ();
 
   bIsInAir = BlitzCharacter->GetCharacterMovement ()->IsFalling ();
-
   bIsAccelerating = BlitzCharacter->GetCharacterMovement ()->
                                     GetCurrentAcceleration ().Size () > 0.f;
+  bWeaponEquipped = BlitzCharacter->IsWeaponEquipped ();
 }

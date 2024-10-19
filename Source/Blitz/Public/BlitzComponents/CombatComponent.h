@@ -24,11 +24,15 @@ public:
   friend class ABlitzCharacter;
 
   void EquipWeapon (AWeapon *WeaponToEquip);
+  virtual void GetLifetimeReplicatedProps (
+      TArray<class FLifetimeProperty> &OutLifetimeProps) const override;
 
 protected:
   virtual void BeginPlay () override;
 
 private:
   ABlitzCharacter *Character;
+
+  UPROPERTY (Replicated)
   AWeapon *EquippedWeapon;
 };

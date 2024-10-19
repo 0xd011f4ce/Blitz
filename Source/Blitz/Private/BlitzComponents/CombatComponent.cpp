@@ -1,14 +1,13 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "BlitzComponents/CombatComponent.h"
 
 #include "Character/BlitzCharacter.h"
 
-#include "Components/SphereComponent.h"
-
 #include "Components/SkeletalMeshComponent.h"
 #include "Engine/SkeletalMeshSocket.h"
+
+#include "Net/UnrealNetwork.h"
 
 #include "Weapon/Weapon.h"
 
@@ -46,4 +45,13 @@ UCombatComponent::EquipWeapon (AWeapon *WeaponToEquip)
         }
       EquippedWeapon->SetOwner (Character);
     }
+}
+
+void
+UCombatComponent::GetLifetimeReplicatedProps (
+    TArray<class FLifetimeProperty> &OutLifetimeProps) const
+{
+  Super::GetLifetimeReplicatedProps (OutLifetimeProps);
+
+  DOREPLIFETIME (UCombatComponent, EquippedWeapon);
 }

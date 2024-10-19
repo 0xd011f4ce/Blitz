@@ -204,3 +204,9 @@ ABlitzCharacter::SetOverlappingWeapon (AWeapon *Weapon)
         }
     }
 }
+
+bool
+ABlitzCharacter::IsWeaponEquipped () const
+{
+  return (Combat && Combat->EquippedWeapon);
+}
