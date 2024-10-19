@@ -7,6 +7,7 @@
 
 #include "BlitzCharacter.generated.h"
 
+class UCombatComponent;
 class AWeapon;
 class UWidgetComponent;
 struct FInputActionValue;
@@ -33,6 +34,7 @@ public:
   virtual void Jump () override;
   virtual void GetLifetimeReplicatedProps (
       TArray<FLifetimeProperty> &OutLifetimeProps) const override;
+  virtual void PostInitializeComponents () override;
 
 protected:
   virtual void BeginPlay () override;
@@ -52,8 +54,12 @@ protected:
   UPROPERTY (EditAnywhere, Category = Input)
   UInputAction *JumpAction;
 
+  UPROPERTY (EditAnywhere, Category = Input)
+  UInputAction *EquipAction;
+
   void Move (const FInputActionValue &Value);
   void Look (const FInputActionValue &Value);
+  void Equip (const FInputActionValue &Value);
 
 private:
   UPROPERTY (VisibleAnywhere, Category = Camera)
@@ -71,6 +77,9 @@ private:
 
   UFUNCTION ()
   void OnRep_OverlappingWeapon (AWeapon *LastWeapon);
+
+  UPROPERTY (VisibleAnywhere)
+  UCombatComponent *Combat;
 
 public:
   /**

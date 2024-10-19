@@ -11,6 +11,8 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 
+#include "BlitzComponents/CombatComponent.h"
+
 #include "Net/UnrealNetwork.h"
 
 #include "Components/WidgetComponent.h"
@@ -38,6 +40,9 @@ ABlitzCharacter::ABlitzCharacter ()
   OverheadWidget = CreateDefaultSubobject<UWidgetComponent> (
       TEXT ("OverheadWidget"));
   OverheadWidget->SetupAttachment (RootComponent);
+
+  Combat = CreateDefaultSubobject<UCombatComponent> (TEXT ("CombatComponent"));
+  Combat->SetIsReplicated (true); // replicate this component
 }
 
 void
@@ -62,6 +67,9 @@ ABlitzCharacter::SetupPlayerInputComponent (
                                           this, &ThisClass::Look);
       EnhancedInputComponent->BindAction (JumpAction, ETriggerEvent::Triggered,
                                           this, &ThisClass::Jump);
+      EnhancedInputComponent->BindAction (EquipAction,
+                                          ETriggerEvent::Triggered,
+                                          this, &ThisClass::Equip);
     }
 }
 
@@ -79,6 +87,17 @@ ABlitzCharacter::GetLifetimeReplicatedProps (
 
   // Replicate to everyone
   DOREPLIFETIME_CONDITION (ABlitzCharacter, OverlappingWeapon, COND_OwnerOnly);
+}
+
+void
+ABlitzCharacter::PostInitializeComponents ()
+{
+  Super::PostInitializeComponents ();
+
+  if (Combat)
+    {
+      Combat->Character = this;
+    }
 }
 
 void
@@ -125,6 +144,16 @@ ABlitzCharacter::Look (const FInputActionValue &Value)
 
   AddControllerYawInput (Direction.X);
   AddControllerPitchInput (Direction.Y);
+}
+
+void
+ABlitzCharacter::Equip (const FInputActionValue &Value)
+{
+  // Only the server can pickup weapons
+  if (Combat && HasAuthority ())
+    {
+      Combat->EquipWeapon (OverlappingWeapon);
+    }
 }
 
 void
