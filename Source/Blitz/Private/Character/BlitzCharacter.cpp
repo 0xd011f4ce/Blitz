@@ -149,10 +149,18 @@ ABlitzCharacter::Look (const FInputActionValue &Value)
 void
 ABlitzCharacter::Equip (const FInputActionValue &Value)
 {
-  // Only the server can pickup weapons
-  if (Combat && HasAuthority ())
+  if (Combat)
     {
-      Combat->EquipWeapon (OverlappingWeapon);
+      if (HasAuthority ())
+        {
+          // we're the server
+          Combat->EquipWeapon (OverlappingWeapon);
+        }
+      else
+        {
+          // we're the client
+          ServerEquipButtonPressed ();
+        }
     }
 }
 
@@ -167,6 +175,15 @@ ABlitzCharacter::OnRep_OverlappingWeapon (AWeapon *LastWeapon)
   if (LastWeapon)
     {
       LastWeapon->ShowPickupWidget (false);
+    }
+}
+
+void
+ABlitzCharacter::ServerEquipButtonPressed_Implementation ()
+{
+  if (Combat)
+    {
+      Combat->EquipWeapon (OverlappingWeapon);
     }
 }
 

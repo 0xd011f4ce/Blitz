@@ -4,6 +4,9 @@
 #include "BlitzComponents/CombatComponent.h"
 
 #include "Character/BlitzCharacter.h"
+
+#include "Components/SphereComponent.h"
+
 #include "Components/SkeletalMeshComponent.h"
 #include "Engine/SkeletalMeshSocket.h"
 
@@ -42,6 +45,5 @@ UCombatComponent::EquipWeapon (AWeapon *WeaponToEquip)
           HandSocket->AttachActor (EquippedWeapon, Character->GetMesh ());
         }
       EquippedWeapon->SetOwner (Character);
-      EquippedWeapon->ShowPickupWidget (false);
     }
 }
