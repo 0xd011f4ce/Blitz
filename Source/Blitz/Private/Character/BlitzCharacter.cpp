@@ -78,6 +78,12 @@ ABlitzCharacter::SetupPlayerInputComponent (
       EnhancedInputComponent->BindAction (CrouchAction,
                                           ETriggerEvent::Completed, this,
                                           &ThisClass::CrouchUncrouch);
+      EnhancedInputComponent->BindAction (AimAction,
+                                          ETriggerEvent::Started, this,
+                                          &ThisClass::Aim);
+      EnhancedInputComponent->BindAction (AimAction,
+                                          ETriggerEvent::Completed, this,
+                                          &ThisClass::Aim);
     }
 }
 
@@ -186,8 +192,19 @@ ABlitzCharacter::CrouchUncrouch (const FInputActionValue &Value)
 }
 
 void
+ABlitzCharacter::Aim (const FInputActionValue &Value)
+{
+  if (Combat)
+    {
+      Combat->SetAiming (Value.Get<bool> ());
+    }
+}
+
+void
 ABlitzCharacter::OnRep_OverlappingWeapon (AWeapon *LastWeapon)
 {
+  UE_LOG (LogTemp, Warning, TEXT ("OnRep_OverlappingWeapon"));
+
   if (OverlappingWeapon)
     {
       OverlappingWeapon->ShowPickupWidget (true);
@@ -230,4 +247,10 @@ bool
 ABlitzCharacter::IsWeaponEquipped () const
 {
   return (Combat && Combat->EquippedWeapon);
+}
+
+bool
+ABlitzCharacter::IsAiming () const
+{
+  return (Combat && Combat->bAiming);
 }

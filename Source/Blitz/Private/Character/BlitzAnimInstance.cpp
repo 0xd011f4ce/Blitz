@@ -32,4 +32,5 @@ UBlitzAnimInstance::NativeUpdateAnimation (float DeltaSeconds)
                                     GetCurrentAcceleration ().Size () > 0.f;
   bWeaponEquipped = BlitzCharacter->IsWeaponEquipped ();
   bIsCrouched = BlitzCharacter->bIsCrouched;
+  bAiming = BlitzCharacter->IsAiming ();
 }

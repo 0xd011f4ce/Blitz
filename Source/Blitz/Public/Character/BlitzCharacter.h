@@ -61,10 +61,14 @@ protected:
   UPROPERTY (EditAnywhere, Category = Input)
   UInputAction *CrouchAction;
 
+  UPROPERTY (EditAnywhere, Category = Input)
+  UInputAction *AimAction;
+
   void Move (const FInputActionValue &Value);
   void Look (const FInputActionValue &Value);
   void Equip (const FInputActionValue &Value);
   void CrouchUncrouch (const FInputActionValue &Value);
+  void Aim (const FInputActionValue &Value);
 
 private:
   UPROPERTY (VisibleAnywhere, Category = Camera)
@@ -97,4 +101,6 @@ public:
   SetOverlappingWeapon (AWeapon *Weapon);
 
   bool IsWeaponEquipped () const;
+
+  bool IsAiming () const;
 };
