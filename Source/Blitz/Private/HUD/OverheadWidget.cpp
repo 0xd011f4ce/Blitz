@@ -48,18 +48,37 @@ UOverheadWidget::ShowPlayerNetRole (APawn *InPawn)
 }
 
 void
-UOverheadWidget::ShowPlayerName (AController *InController)
+UOverheadWidget::ShowPlayerName (APawn *InPawn)
 {
   if (PlayerName)
     {
-      if (InController && InController->PlayerState)
+      if (InPawn)
         {
-          FString PlayerNameString = InController->PlayerState->
-                                                   GetPlayerName ();
-          PlayerName->SetText (FText::FromString (PlayerNameString));
+          if (InPawn->GetController ())
+            {
+              if (APlayerState *PlayerState = InPawn->GetController ()->
+                  PlayerState)
+                {
+                  FString PlayerNameString = PlayerState->GetPlayerName ();
+                  PlayerName->SetText (FText::FromString (PlayerNameString));
+                }
+              else
+                {
+                  UE_LOG (LogTemp, Warning, TEXT ("PlayerState is nullptr"));
+                  PlayerName->SetText (
+                      FText::FromString (TEXT ("No Player State")));
+                }
+            }
+          else
+            {
+              UE_LOG (LogTemp, Warning, TEXT ("Controller is nullptr"));
+              PlayerName->SetText (
+                  FText::FromString (TEXT ("No Player State")));
+            }
         }
       else
         {
+          UE_LOG (LogTemp, Warning, TEXT ("InPawn is nullptr"));
           PlayerName->SetText (FText::FromString (TEXT ("No Player State")));
         }
     }

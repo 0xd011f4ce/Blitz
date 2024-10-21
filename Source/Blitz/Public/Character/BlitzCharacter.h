@@ -81,7 +81,7 @@ private:
     Category = UI)
   UWidgetComponent *OverheadWidget;
 
-  UPROPERTY (ReplicatedUsing = OnRep_OverlappingWeapon)
+  UPROPERTY (ReplicatedUsing = OnRep_OverlappingWeapon, Category = Combat)
   AWeapon *OverlappingWeapon;
 
   UFUNCTION ()
@@ -103,4 +103,5 @@ public:
   bool IsWeaponEquipped () const;
 
   bool IsAiming () const;
+
 };

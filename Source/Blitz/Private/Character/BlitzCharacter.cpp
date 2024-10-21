@@ -203,8 +203,6 @@ ABlitzCharacter::Aim (const FInputActionValue &Value)
 void
 ABlitzCharacter::OnRep_OverlappingWeapon (AWeapon *LastWeapon)
 {
-  UE_LOG (LogTemp, Warning, TEXT ("OnRep_OverlappingWeapon"));
-
   if (OverlappingWeapon)
     {
       OverlappingWeapon->ShowPickupWidget (true);
