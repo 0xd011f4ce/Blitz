@@ -81,7 +81,8 @@ private:
     Category = UI)
   UWidgetComponent *OverheadWidget;
 
-  UPROPERTY (ReplicatedUsing = OnRep_OverlappingWeapon, Category = Combat)
+  UPROPERTY (ReplicatedUsing = OnRep_OverlappingWeapon, VisibleAnywhere,
+    Category = Combat)
   AWeapon *OverlappingWeapon;
 
   UFUNCTION ()
