@@ -56,11 +56,6 @@ UCombatComponent::TickComponent (float DeltaTime, ELevelTick TickType,
 void
 UCombatComponent::EquipWeapon (AWeapon *WeaponToEquip)
 {
-  if (!WeaponToEquip)
-    {
-      UE_LOG (LogTemp, Warning, TEXT ("WeaponToEquip is nullptr"));
-    }
-
   if (Character && WeaponToEquip)
     {
       EquippedWeapon = WeaponToEquip;
