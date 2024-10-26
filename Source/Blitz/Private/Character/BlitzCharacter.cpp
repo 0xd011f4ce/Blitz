@@ -12,6 +12,7 @@
 #include "EnhancedInputSubsystems.h"
 
 #include "BlitzComponents/CombatComponent.h"
+#include "Components/CapsuleComponent.h"
 
 #include "Net/UnrealNetwork.h"
 
@@ -45,6 +46,9 @@ ABlitzCharacter::ABlitzCharacter ()
   Combat->SetIsReplicated (true); // replicate this component
 
   GetCharacterMovement ()->NavAgentProps.bCanCrouch = true;
+  GetCapsuleComponent ()->SetCollisionResponseToChannel (
+      ECC_Camera, ECR_Ignore);
+  GetMesh ()->SetCollisionResponseToChannel (ECC_Camera, ECR_Ignore);
 }
 
 void

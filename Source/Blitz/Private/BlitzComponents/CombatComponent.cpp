@@ -21,6 +21,11 @@ void
 UCombatComponent::BeginPlay ()
 {
   Super::BeginPlay ();
+
+  if (Character)
+    {
+      Character->GetCharacterMovement ()->MaxWalkSpeed = BaseWalkSpeed;
+    }
 }
 
 void
@@ -28,6 +33,13 @@ UCombatComponent::SetAiming (bool bIsAiming)
 {
   bAiming = bIsAiming;
   ServerSetAiming (bIsAiming);
+
+  if (Character)
+    {
+      Character->GetCharacterMovement ()->MaxWalkSpeed = bAiming
+          ? AimWalkSpeed
+          : BaseWalkSpeed;
+    }
 }
 
 void
@@ -44,6 +56,13 @@ void
 UCombatComponent::ServerSetAiming_Implementation (bool bIsAiming)
 {
   bAiming = bIsAiming;
+
+  if (Character)
+    {
+      Character->GetCharacterMovement ()->MaxWalkSpeed = bAiming
+          ? AimWalkSpeed
+          : BaseWalkSpeed;
+    }
 }
 
 void
