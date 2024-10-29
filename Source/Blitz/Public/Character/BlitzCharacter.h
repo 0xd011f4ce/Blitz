@@ -69,6 +69,7 @@ protected:
   void Equip (const FInputActionValue &Value);
   void CrouchUncrouch (const FInputActionValue &Value);
   void Aim (const FInputActionValue &Value);
+  void AimOffset (float DeltaTime);
 
 private:
   UPROPERTY (VisibleAnywhere, Category = Camera)
@@ -94,6 +95,10 @@ private:
   UFUNCTION (Server, Reliable)
   void ServerEquipButtonPressed ();
 
+  float AO_Yaw;
+  float AO_Pitch;
+  FRotator StartingAimRotation;
+
 public:
   /**
    * Setters and Getters
@@ -105,4 +110,9 @@ public:
 
   bool IsAiming () const;
 
+  FORCEINLINE float
+  GetAO_Yaw () const { return AO_Yaw; };
+
+  FORCEINLINE float
+  GetAO_Pitch () const { return AO_Pitch; };
 };
